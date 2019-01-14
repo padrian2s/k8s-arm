@@ -1,0 +1,174 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "accounts_datalaketryout_name": {
+            "defaultValue": "datalaketryout",
+            "type": "String"
+        },
+        "managedClusters_k8s22_name": {
+            "defaultValue": "k8s22",
+            "type": "String"
+        },
+        "accounts_datalakestoregen1_name": {
+            "defaultValue": "datalakestoregen1",
+            "type": "String"
+        },
+        "storageAccounts_nessmystorageaccount_name": {
+            "defaultValue": "nessmystorageaccount",
+            "type": "String"
+        },
+        "storageAccounts_variantstorageaccount2_name": {
+            "defaultValue": "variantstorageaccount2",
+            "type": "String"
+        },
+        "managedClusters_k8s22_loganalyticsworkspaceresourceid": {
+            "defaultValue": "/subscriptions/9fe97eeb-900a-4e13-a4cb-c6903cbec6b1/resourcegroups/defaultresourcegroup-eus/providers/microsoft.operationalinsights/workspaces/defaultworkspace-9fe97eeb-900a-4e13-a4cb-c6903cbec6b1-eus",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/9fe97eeb-900a-4e13-a4cb-c6903cbec6b1/resourcegroups/cloud-shell-storage-westeurope/providers/Microsoft.ContainerService/managedClusters/k8s22'.",
+            "type": "Microsoft.ContainerService/managedClusters",
+            "name": "[parameters('managedClusters_k8s22_name')]",
+            "apiVersion": "2018-03-31",
+            "location": "westus",
+            "scale": null,
+            "properties": {
+                "kubernetesVersion": "1.11.5",
+                "dnsPrefix": "ness-varian",
+                "agentPoolProfiles": [
+                    {
+                        "name": "agentpool",
+                        "count": 2,
+                        "vmSize": "Standard_F2s_v2",
+                        "osDiskSizeGB": 30,
+                        "storageProfile": "ManagedDisks",
+                        "maxPods": 110,
+                        "osType": "Linux"
+                    }
+                ],
+                "servicePrincipalProfile": {
+                    "clientId": "694edc19-85bb-42e9-b045-6d4df8da8b57"
+                },
+                "addonProfiles": {
+                    "httpapplicationrouting": {
+                        "enabled": true,
+                        "config": {
+                            "HTTPApplicationRoutingZoneName": "ea740dce45e3499cb5e4.westus.aksapp.io",
+                            "httpapplicationroutingzonename": "ea740dce45e3499cb5e4.westus.aksapp.io"
+                        }
+                    },
+                    "omsagent": {
+                        "enabled": true,
+                        "config": {
+                            "loganalyticsworkspaceresourceid": "[parameters('managedClusters_k8s22_loganalyticsworkspaceresourceid')]"
+                        }
+                    }
+                },
+                "enableRBAC": true,
+                "networkProfile": {
+                    "networkPlugin": "kubenet",
+                    "podCidr": "10.244.0.0/16",
+                    "serviceCidr": "10.0.0.0/16",
+                    "dnsServiceIP": "10.0.0.10",
+                    "dockerBridgeCidr": "172.17.0.1/16"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9fe97eeb-900a-4e13-a4cb-c6903cbec6b1/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.DataLakeStore/accounts/datalaketryout'.",
+            "type": "Microsoft.DataLakeStore/accounts",
+            "name": "[parameters('accounts_datalaketryout_name')]",
+            "apiVersion": "2016-11-01",
+            "location": "eastus2",
+            "scale": null,
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9fe97eeb-900a-4e13-a4cb-c6903cbec6b1/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.DataLakeStore/accounts/datalakestoregen1'.",
+            "type": "Microsoft.DataLakeStore/accounts",
+            "name": "[parameters('accounts_datalakestoregen1_name')]",
+            "apiVersion": "2016-11-01",
+            "location": "westeurope",
+            "scale": null,
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9fe97eeb-900a-4e13-a4cb-c6903cbec6b1/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.Storage/storageAccounts/variantstorageaccount2'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "StorageV2",
+            "name": "[parameters('storageAccounts_variantstorageaccount2_name')]",
+            "apiVersion": "2018-07-01",
+            "location": "westus",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                },
+                "accessTier": "Hot"
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/9fe97eeb-900a-4e13-a4cb-c6903cbec6b1/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.Storage/storageAccounts/nessmystorageaccount'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_nessmystorageaccount_name')]",
+            "apiVersion": "2018-07-01",
+            "location": "westeurope",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "enabled": true
+                        },
+                        "blob": {
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            },
+            "dependsOn": []
+        }
+    ]
+}
